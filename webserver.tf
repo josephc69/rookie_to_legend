@@ -12,6 +12,6 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "web-server" {
-  ami           = var.ami_id
+  ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
 }
