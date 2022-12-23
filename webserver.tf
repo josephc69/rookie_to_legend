@@ -11,7 +11,16 @@ data "aws_ami" "ubuntu" {
 
 }
 
+data "template_file" "userdata" {
+  template = file("templates/userdata.tpl")
+  vars = {
+    webserver = "apache2"
+  }
+
+}
+
 resource "aws_instance" "web-server" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
+  user_data     = data.template_file.userdata.rendered
 }
